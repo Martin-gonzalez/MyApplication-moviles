@@ -15,8 +15,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.myapplication.Model.Juego
+import com.example.myapplication.View.DetalleJuegoScreen
 import com.example.myapplication.view.CatalogoScreen
-import com.example.myapplication.view.DetalleJuegoScreen
 import com.example.myapplication.view.LoginScreen
 import com.example.myapplication.view.RegisterScreen
 import com.example.myapplication.viewmodel.CatalogoViewModel

@@ -1,4 +1,4 @@
-package com.example.myapplication.view
+package com.example.myapplication.View
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.myapplication.Model.Juego
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetalleJuegoScreen(
@@ -22,6 +23,9 @@ fun DetalleJuegoScreen(
     Scaffold(
         topBar = {
             TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                ),
                 title = { Text(juego.titulo) },
                 navigationIcon = {
                     IconButton(onClick = onVolver) {
@@ -73,8 +77,10 @@ fun DetalleJuegoScreen(
             )
 
             Spacer(Modifier.height(12.dp))
-
-            HorizontalDivider()
+            Text(
+                text = "Descripción:",
+                style = MaterialTheme.typography.titleMedium
+            )
 
             Spacer(Modifier.height(12.dp))
 

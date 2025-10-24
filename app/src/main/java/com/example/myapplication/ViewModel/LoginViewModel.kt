@@ -17,7 +17,7 @@ data class LoginUiState(
 
 class LoginViewModel : ViewModel() {
 
-    // Simulación de una base de datos o un servicio de usuarios.
+    //base de datos
     private val knownUsers = listOf(
         usuario(
             nombre = "Martin Gonzalez",
