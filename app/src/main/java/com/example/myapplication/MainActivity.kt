@@ -15,6 +15,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.myapplication.Model.Juego
+import com.example.myapplication.View.AgregarProductoScreen
+import com.example.myapplication.View.BackOfficeScreen
 import com.example.myapplication.View.DetalleJuegoScreen
 import com.example.myapplication.view.CatalogoScreen
 import com.example.myapplication.view.LoginScreen
@@ -47,12 +49,20 @@ class MainActivity : ComponentActivity() {
                                 viewModel = loginViewModel,
                                 onNavigateToRegister = { navController.navigate("register") },
                                 onLoginSuccess = {
-                                    navController.navigate("catalogo") {
-                                        popUpTo("login") { inclusive = true }
+                                    val usuario = loginViewModel.usuarioActual
+                                    if (usuario?.mail == "admin@admin.com") {
+                                        navController.navigate("backoffice") {
+                                            popUpTo("login") { inclusive = true }
+                                        }
+                                    } else {
+                                        navController.navigate("catalogo") {
+                                            popUpTo("login") { inclusive = true }
+                                        }
                                     }
                                 }
                             )
                         }
+
 
                         composable("register") {
                             RegisterScreen(
@@ -92,6 +102,21 @@ class MainActivity : ComponentActivity() {
                                 Text("Juego no encontrado")
                             }
                         }
+
+                        composable("backoffice") {
+                            BackOfficeScreen(
+                                viewModel = catalogoViewModel,
+                                onAgregarProducto = { navController.navigate("agregarProducto") }
+                            )
+                        }
+
+                        composable("agregarProducto") {
+                            AgregarProductoScreen(
+                                onGuardar = { navController.popBackStack() },
+                                onCancelar = { navController.popBackStack() }
+                            )
+                        }
+
                     }
                 }
             }

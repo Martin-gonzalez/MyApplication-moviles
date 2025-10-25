@@ -32,11 +32,21 @@ class LoginViewModel : ViewModel() {
             direccion = "Valparaíso, Chile",
             mail = "test@example.com",
             contrasena = "testing456"
+        ),
+        usuario( // Admin
+            nombre = "Admin",
+            usuario = "admin@admin.com",
+            direccion = "Chile",
+            mail = "admin@admin.com",
+            contrasena = "admin1234"
         )
     )
 
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState
+
+    var usuarioActual: usuario? = null
+        private set
 
     fun onUsuarioChange(nuevo: String) {
         _uiState.update { it.copy(usuario = nuevo.trim(), error = null) }
@@ -83,6 +93,7 @@ class LoginViewModel : ViewModel() {
         // 3. Verificar si el usuario existe y la contraseña coincide.
         if (foundUser != null && foundUser.contrasena == current.contrasena) {
             // Éxito
+            usuarioActual = foundUser
             _uiState.update {
                 it.copy(
                     isLoading = false,
