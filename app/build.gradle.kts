@@ -76,6 +76,7 @@ dependencies {
 
     // 🧩 Room (con KSP)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.compose.runtime.livedata)
     ksp(libs.androidx.room.compiler)
 
     // 🧩 Coil para carga de imágenes

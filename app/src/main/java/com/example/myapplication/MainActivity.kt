@@ -3,9 +3,7 @@ package com.example.myapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -15,15 +13,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.myapplication.Model.Juego
-import com.example.myapplication.View.AgregarProductoScreen
-import com.example.myapplication.View.BackOfficeScreen
-import com.example.myapplication.View.DetalleJuegoScreen
-import com.example.myapplication.view.CatalogoScreen
-import com.example.myapplication.view.LoginScreen
-import com.example.myapplication.view.RegisterScreen
+import com.example.myapplication.View.*
 import com.example.myapplication.viewmodel.CatalogoViewModel
 import com.example.myapplication.viewmodel.LoginViewModel
 import com.example.myapplication.viewmodel.RegisterViewModel
+import com.example.myapplication.ViewModel.CarritoViewModel
+import com.example.myapplication.view.LoginScreen
+import com.example.myapplication.view.RegisterScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,9 +28,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
+            // ✅ ViewModels
             val loginViewModel: LoginViewModel = viewModel()
             val registerViewModel: RegisterViewModel = viewModel()
             val catalogoViewModel: CatalogoViewModel = viewModel()
+            val carritoViewModel: CarritoViewModel = viewModel()
 
             MaterialTheme {
                 Surface(color = MaterialTheme.colorScheme.background) {
@@ -44,6 +42,7 @@ class MainActivity : ComponentActivity() {
                         startDestination = "login"
                     ) {
 
+                        // 🔐 LOGIN
                         composable("login") {
                             LoginScreen(
                                 viewModel = loginViewModel,
@@ -76,14 +75,18 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
+
                         composable("catalogo") {
                             CatalogoScreen(
                                 viewModel = catalogoViewModel,
+                                carritoViewModel = carritoViewModel,
                                 onVerDetalles = { juego: Juego ->
                                     navController.navigate("detalle/${juego.id}")
-                                }
+                                },
+                                onVerCarrito = { navController.navigate("carrito") }
                             )
                         }
+
 
                         composable(
                             route = "detalle/{id}",
@@ -103,6 +106,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
 
+
                         composable("backoffice") {
                             BackOfficeScreen(
                                 viewModel = catalogoViewModel,
@@ -117,9 +121,48 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
+
+                        composable("carrito") {
+                            CarritoScreen(
+                                carritoViewModel = carritoViewModel,
+                                onCompraExitosa = {
+                                    navController.navigate("compraExitosa") {
+                                        popUpTo("carrito") { inclusive = true }
+                                    }
+                                },
+                                onCompraRechazada = {
+                                    navController.navigate("compraRechazada") {
+                                        popUpTo("carrito") { inclusive = true }
+                                    }
+                                }
+                            )
+                        }
+
+
+                        composable("compraExitosa") {
+                            CompraExitosaScreen(
+                                onVolverInicio = {
+                                    navController.navigate("catalogo") {
+                                        popUpTo("compraExitosa") { inclusive = true }
+                                    }
+                                }
+                            )
+                        }
+
+
+                        composable("compraRechazada") {
+                            CompraRechazadaScreen(
+                                onVolverCarrito = {
+                                    navController.navigate("carrito") {
+                                        popUpTo("compraRechazada") { inclusive = true }
+                                    }
+                                }
+                            )
+                        }
                     }
                 }
             }
         }
     }
 }
+
