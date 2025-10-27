@@ -23,7 +23,7 @@ import com.example.myapplication.viewmodel.CatalogoViewModel
 import com.example.myapplication.viewmodel.LoginViewModel
 import com.example.myapplication.viewmodel.RegisterViewModel
 
-// --- CORRECCIÓN PRINCIPAL: Todas las importaciones usan paquetes en minúsculas ---
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,9 +31,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-            // NOTA: Como tus ViewModels ahora son AndroidViewModel (para usar el repositorio),
-            // la función viewModel() se encarga de crearlos correctamente de forma automática.
-            // No necesitas crear una "Factory" manualmente si sigues esta estructura simple.
+            
             val loginViewModel: LoginViewModel = viewModel()
             val registerViewModel: RegisterViewModel = viewModel()
             val catalogoViewModel: CatalogoViewModel = viewModel()
