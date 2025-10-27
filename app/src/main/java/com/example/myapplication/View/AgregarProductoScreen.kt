@@ -1,14 +1,20 @@
-package com.example.myapplication.View
+package com.example.myapplication.view
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.example.myapplication.Model.Juego
+import com.example.myapplication.viewmodel.CatalogoViewModel
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AgregarProductoScreen(
+    viewModel: CatalogoViewModel,
     onGuardar: () -> Unit = {},
     onCancelar: () -> Unit = {}
 ) {
@@ -20,7 +26,7 @@ fun AgregarProductoScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Agregar Producto (solo visual)") }
+                title = { Text("Agregar Producto") }
             )
         }
     ) { padding ->
@@ -56,6 +62,7 @@ fun AgregarProductoScreen(
                 value = precio,
                 onValueChange = { precio = it },
                 label = { Text("Precio") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -63,8 +70,21 @@ fun AgregarProductoScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Button(onClick = onGuardar) {
-                    Text("Guardar (solo visual)")
+                Button(onClick = {
+                    // Lógica para guardar el nuevo juego
+                    val precioInt = precio.toIntOrNull() ?: 0
+                    val nuevoJuego = Juego(
+                        id = 0, // El repositorio se encargará de asignar el ID correcto
+                        titulo = titulo,
+                        descripcion = descripcion,
+                        genero = genero,
+                        precio = precioInt,
+                        imagen = "https://via.placeholder.com/150" // URL de imagen por defecto
+                    )
+                    viewModel.agregarJuego(nuevoJuego)
+                    onGuardar() // Navegar hacia atrás después de guardar
+                }) {
+                    Text("Guardar")
                 }
                 OutlinedButton(onClick = onCancelar) {
                     Text("Cancelar")

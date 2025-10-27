@@ -1,10 +1,12 @@
 package com.example.myapplication.Model
-//data class para una estructura de guardado facil de informacion
-//si es class se le puede agregar logica y aca no nos interesa poner logica
+
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class usuario(
-    var nombre: String,
-    var usuario: String,
-    var direccion: String,
-    var mail: String,
-    var contrasena: String
+    val nombre: String,
+    val usuario: String,
+    val direccion: String,
+    val mail: String,
+    val contrasena: String
 )

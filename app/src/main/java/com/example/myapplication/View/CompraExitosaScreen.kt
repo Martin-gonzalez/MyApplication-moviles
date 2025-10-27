@@ -14,7 +14,7 @@ fun CompraExitosaScreen(onVolverInicio: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("✅ ¡Compra Exitosa!", style = MaterialTheme.typography.headlineMedium)
+        Text(" ¡Compra Exitosa!", style = MaterialTheme.typography.headlineMedium)
         Spacer(Modifier.height(16.dp))
         Button(onClick = onVolverInicio) {
             Text("Volver al Inicio")

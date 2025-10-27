@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.myapplication.Model.Juego
 import com.example.myapplication.ViewModel.CarritoViewModel
 
 
@@ -26,7 +25,7 @@ fun CarritoScreen(
     val total by carritoViewModel.totalPrecio.observeAsState(0.0)
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        Text("🛒 Carrito de Compras", style = MaterialTheme.typography.headlineMedium)
+        Text(" Carrito de Compras", style = MaterialTheme.typography.headlineMedium)
         Spacer(Modifier.height(16.dp))
 
         if (carrito.isEmpty()) {

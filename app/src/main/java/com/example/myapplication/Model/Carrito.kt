@@ -3,8 +3,8 @@ package com.example.myapplication.Model
 data class Carrito(
 
     val juego: Juego,
-    var cantidad: Double = 1.0
+    var cantidad: Int = 0
 ) {
-    val PrecioTotal: Double
+    val PrecioTotal: Int
         get() = juego.precio * cantidad
 }

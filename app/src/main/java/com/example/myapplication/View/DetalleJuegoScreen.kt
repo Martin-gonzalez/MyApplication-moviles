@@ -92,7 +92,7 @@ fun DetalleJuegoScreen(
             Spacer(Modifier.height(24.dp))
 
             Button(onClick = { /* Aquí puedes añadir al carrito */ }) {
-                Text("Agregar al carrito 🛒")
+                Text("Agregar al carrito ")
             }
         }
     }

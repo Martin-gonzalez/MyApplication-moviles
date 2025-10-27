@@ -14,7 +14,7 @@ fun CompraRechazadaScreen(onVolverCarrito: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("❌ Compra Rechazada", style = MaterialTheme.typography.headlineMedium)
+        Text("Compra Rechazada", style = MaterialTheme.typography.headlineMedium)
         Spacer(Modifier.height(16.dp))
         Button(onClick = onVolverCarrito) {
             Text("Volver al Carrito")

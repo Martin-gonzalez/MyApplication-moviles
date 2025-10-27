@@ -8,23 +8,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.example.myapplication.viewmodel.LoginViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-
+import com.example.myapplication.viewmodel.LoginViewModel
 
 
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = viewModel(),
     onNavigateToRegister: () -> Unit = {},
-    onLoginSuccess: () -> Unit // Callback para notificar el éxito
+    // 1. CORRECCIÓN: La función ahora espera recibir un Boolean.
+    onLoginSuccess: (Boolean) -> Unit
 ) {
     val state by viewModel.uiState.collectAsState()
 
-    // Efecto para navegar cuando el login es exitoso
+    // 2. CORRECCIÓN: El efecto ahora determina si es admin y pasa el valor.
     LaunchedEffect(state.success) {
         if (state.success) {
-            onLoginSuccess()
+            val isAdmin = state.userData?.mail == "admin@admin.com"
+            onLoginSuccess(isAdmin) // Llama al callback con el resultado
+            viewModel.onLoginSuccessConsumed() // Notifica al ViewModel que el evento fue consumido
         }
     }
 
@@ -42,11 +44,10 @@ fun LoginScreen(
 
         Spacer(Modifier.height(16.dp))
 
-        // 🔹 Campo de usuario
         OutlinedTextField(
             value = state.usuario,
             onValueChange = viewModel::onUsuarioChange,
-            label = { Text("Usuario") },
+            label = { Text("Correo electrónico") },
             singleLine = true,
             keyboardOptions = KeyboardOptions.Default,
             modifier = Modifier.fillMaxWidth(0.9f)
@@ -54,7 +55,6 @@ fun LoginScreen(
 
         Spacer(Modifier.height(12.dp))
 
-        // 🔹 Campo de contraseña
         OutlinedTextField(
             value = state.contrasena,
             onValueChange = viewModel::onContrasenaChange,
@@ -67,32 +67,30 @@ fun LoginScreen(
 
         Spacer(Modifier.height(20.dp))
 
-        // 🔹 Botón de inicio de sesión
         Button(
             onClick = viewModel::onLoginClick,
             enabled = !state.isLoading,
             modifier = Modifier.fillMaxWidth(0.9f)
         ) {
-            if (state.isLoading)
+            if (state.isLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(20.dp),
                     strokeWidth = 2.dp,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
-            else
+            } else {
                 Text("Ingresar")
+            }
         }
 
         Spacer(Modifier.height(16.dp))
 
-        // 🔹 Mensaje de error
         state.error?.let {
             Text(text = it, color = MaterialTheme.colorScheme.error)
         }
 
         Spacer(Modifier.height(12.dp))
 
-        // 🔹 Enlace para ir al registro
         TextButton(onClick = onNavigateToRegister) {
             Text("¿No tienes cuenta? Regístrate aquí")
         }

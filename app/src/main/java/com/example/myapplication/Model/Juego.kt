@@ -1,10 +1,13 @@
 package com.example.myapplication.Model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Juego(
-    var id: Int,
-    var titulo: String,
-    var descripcion: String,
-    var precio: Int,
-    var genero: String,
-    var imagen: String,
+    val id: Int,
+    val titulo: String,
+    val descripcion: String,
+    val precio: Int,
+    val genero: String,
+    val imagen: String
 )

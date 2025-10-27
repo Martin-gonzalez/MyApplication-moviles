@@ -35,7 +35,7 @@ class CarritoViewModel : ViewModel() {
         actualizarTotal()
     }
 
-    fun modificarCantidad(juego: Juego, cantidad: Double) {
+    fun modificarCantidad(juego: Juego, cantidad: Int) {
         val lista = _carrito.value ?: mutableListOf()
         val item = lista.find { it.juego.id == juego.id }
         if (item != null && cantidad > 0) {
@@ -49,7 +49,7 @@ class CarritoViewModel : ViewModel() {
 
     private fun actualizarTotal() {
         val total = _carrito.value?.sumOf { it.PrecioTotal } ?: 0.0
-        (totalPrecio as MutableLiveData).value = total
+        (totalPrecio as MutableLiveData).value = total as Double?
     }
 }
 
